@@ -1,0 +1,11 @@
+<launch>
+    <rosparam command="load"
+              file="$(find Parameters)/config/config.yaml"/>
+
+    <node name="splitting_node" pkg="Monitoring" type="split_topic.py" output="screen"/>
+
+    <node name="monitoring" pkg="Monitoring" type="Monitoring.py" output="screen"/>
+
+    <node name="theta_virtual_sensor" pkg="Monitoring" type="Monitoring_widget.py" output="screen"/>
+
+</launch>
