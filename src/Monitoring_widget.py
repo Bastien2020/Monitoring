@@ -250,6 +250,35 @@ class Indicator(QWidget):
         text_rect = painter.boundingRect(self.rect(), Qt.AlignCenter, text)
         painter.drawText(text_rect, Qt.AlignCenter, text)
 
+class Indicator1(QWidget):
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self._status = False  # Variable pour stocker l'état du critère
+        self._value = 0
+
+    def set_status(self, status):
+        self._status = status
+        self.update()  # Met à jour l'affichage de l'indicateur
+
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        # Définir la couleur de l'indicateur en fonction de l'état du critère
+        if self._status == 1:
+            painter.setBrush(Qt.green)
+        else:
+            painter.setBrush(Qt.red)
+
+        # Dessiner l'indicateur comme un cercle rempli
+        size = min(self.width(), self.height())
+        painter.drawEllipse((self.width() - size) / 2, (self.height() - size) / 2, size, size)
+
+
+
+
 def anchor_communication_callback(msg):
     #anchor_communication = msg.data
     indicator.set_status(msg.data[0])
@@ -395,7 +424,7 @@ if __name__ == '__main__':
 
     sub = rospy.Subscriber('/anchor_communication', Float32MultiArray, anchor_communication_callback)
 
-    indicator = Indicator()
+    indicator = Indicator1()
     layout.addWidget(indicator)
     indicator.set_status(1)
 
